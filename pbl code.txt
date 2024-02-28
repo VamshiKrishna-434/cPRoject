@@ -1,0 +1,180 @@
+#include<stdio.h>
+#include<stdlib.h>
+void intro();
+void salary();
+int tax();
+int benifits();
+void intro1();
+struct Salary
+{
+    float basic,hra,da,ta,tax,oi;/*oi=other income*/
+    float gr_ann,gr_mon,net_ann,net_mon;
+    
+    
+}sal;
+
+struct Public
+{
+    char name;
+    char department;
+    int dep_id;
+    int age;
+    struct Salary salary;
+
+}pub;
+struct Commercial
+{
+    char name;
+    char company;
+    int comp_id;
+    int age;
+    struct Salary sal;
+
+}com;
+int main()
+{
+    int sector,ch;
+    float T,w;
+    
+    struct Public pub;
+    
+   
+    
+    while(1)
+    {
+        printf("select your sector: \n1.public \n2.private\n");
+        scanf("%d",&sector);
+        switch(sector)
+        {
+            case 1:while(1){
+                    printf("select choice: \n1.enter details \n2.enter salary \n3.tax \n4.benifis \n5.exit\n");
+                    scanf("%d",&ch);
+                    switch(ch)
+                    {
+                        case 1:intro(pub);break;
+                        case 2:salary(sal);break;
+                        case 3:T=tax();
+                               printf("The payable tax amount is %f \n",T);
+                               printf("The tax applies on monthly taxable income is %f\n",T/12);
+                               printf("The net annual income is %f\n",sal.gr_ann-T);
+                               printf("The net monthly income is %f\n",(sal.gr_ann-T)/12);
+                               break;
+                        case 4: w=benifits(pub.age);
+                                printf("Pension %f\n",w);
+                                break;
+                        case 5:exit(0);break;
+                        default:
+                        printf("..........");
+                       
+                    }
+
+            case 2: while(1){printf("select choice: \n1.enter details \n2.enter salary \n3.tax \n4.benifis \n5.exit\n");
+                    scanf("%d",&ch);
+                    switch(ch)
+                    {
+                        case 1:intro1(com);break;
+                        case 2:salary(sal);break;
+                        case 3:T=tax();
+                               printf("The payable tax amount is %f \n",T);
+                               printf("The tax applies on monthly taxable income is %f\n",T/12);
+                               printf("The net annual income is %f\n",sal.gr_ann-T);
+                               printf("The net monthly income is %f\n",(sal.gr_ann-T)/12);
+                               break;
+                        case 4: w=benifits(pub.age);
+                                printf("Pension %f\n",w);
+                                break;
+                        case 5:exit(0);break;
+                        default:
+                        printf("...........");
+                    }
+            }
+            
+            default:printf("...................");
+            exit(0);
+        }
+    }
+    
+}
+}
+
+void intro(struct Public)
+{
+    printf("name\n");
+    scanf("%c",&pub.name);
+    printf("Enter your age\n");
+    scanf("%d",&pub.age);
+    printf("enter department name\n");
+    scanf("%c",&pub.department);
+    printf("Enter your dep-id\n");
+    scanf("%d",&pub.dep_id);
+    return;
+}
+void intro1(struct Commercial)
+{
+    printf("name\n");
+    scanf("%c",&com.name);
+    printf("Enter your age\n");
+    scanf("%d",&com.age);
+    printf("enter Company name\n");
+    scanf("%c",&com.company);
+    printf("Enter your comp-id\n");
+    scanf("%d",&com.comp_id);
+    return;
+}
+
+void salary(struct Salary)
+{
+    printf("enter salary \n");
+    scanf("%f%f%f%f%f",&sal.basic,&sal.hra,&sal.da,&sal.ta,&sal.oi);
+    sal.gr_mon= sal.basic+sal.da+sal.ta+sal.hra+sal.oi;
+    sal.gr_ann=sal.gr_mon*12;
+    printf("Gross monthly is %f\nGross annual is %f\n",sal.gr_mon,sal.gr_ann); 
+}
+int tax(){
+    if(sal.gr_ann<=250000){
+        return 0;
+    }
+    if(250000<sal.gr_ann<=500000){
+        return 0.05*sal.gr_ann;
+    }
+    if(500000<sal.gr_ann<=750000){
+        return 0.1*sal.gr_ann;
+    }
+    if(750000<sal.gr_ann<=1000000){
+        return 0.15*sal.gr_ann;
+    }
+    if(1000000<sal.gr_ann<=1250000){
+        return 0.20*sal.gr_ann;
+    }
+    if(1250000<sal.gr_ann<=1500000){
+        return 0.25*sal.gr_ann;
+    }
+    if(sal.gr_ann>1500000){
+        return 0.30*sal.gr_ann;
+    }
+    
+
+}
+int benifits(int)
+{
+    if(pub.age<=45)
+    {
+        return 0.005 * sal.gr_ann;
+    }    
+    if(45<pub.age<55)
+    {
+        return 0.01*sal.gr_ann;
+    }
+    if(55<pub.age<=65)
+    {
+        return 0.015*sal.gr_ann;
+    }
+    if(pub.age>75)
+    {
+        return 0.02*sal.gr_ann;
+    }
+    if(pub.age<45)
+    {
+        return 0;
+    }
+}
